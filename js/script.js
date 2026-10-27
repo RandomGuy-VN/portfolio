@@ -110,6 +110,9 @@ document.addEventListener("DOMContentLoaded", () => {
     socialContainer.appendChild(a);
   });
 
+  // -- Media embeds --
+  initEmbeds();
+
   // -- Discord presence --
   if (CONFIG.lanyardUserId) {
     // Live profile via Lanyard (falls back to the static values on failure)
@@ -925,6 +928,125 @@ function setLyricsMessage(text) {
 
   container.innerHTML  = "";
   container.style.transform = "translateY(0)";
+}
+
+
+// ============================================================
+// MEDIA EMBEDS
+// Turns pasted links into embedded players / media:
+//   YouTube (video, shorts, playlist), Spotify (track, album,
+//   playlist, episode), SoundCloud, direct mp4/mp3/gif/images,
+//   and any other URL as a raw iframe.
+// ============================================================
+function initEmbeds() {
+  const container = document.getElementById("embeds");
+  (CONFIG.embeds || []).forEach((item) => {
+    if (!item || !item.url) return;
+    const embed = buildEmbed(item.url, item.height);
+    container.appendChild(embed);
+  });
+}
+
+// Build the right element for a pasted link
+function buildEmbed(url, heightOverride) {
+  let parsed;
+  try {
+    parsed = new URL(url, window.location.href);
+  } catch (err) {
+    const span = document.createElement("span");
+    span.textContent = url;
+    return span;
+  }
+
+  const host = parsed.hostname.replace(/^www\./, "");
+  const path = parsed.pathname;
+  let type = "iframe", src = url, wide = true, height = 0;
+
+  // -- YouTube --
+  if (host === "youtube.com" || host === "m.youtube.com" || host === "music.youtube.com") {
+    const id   = parsed.searchParams.get("v");
+    const list = parsed.searchParams.get("list");
+    if (id) {
+      src = `https://www.youtube.com/embed/${id}${list ? `?list=${list}` : ""}`;
+    } else if (list) {
+      src = `https://www.youtube.com/embed/videoseries?list=${list}`;
+    } else if (path.startsWith("/shorts/")) {
+      src = `https://www.youtube.com/embed${path.replace("/shorts/", "/")}`;
+    }
+  } else if (host === "youtu.be" && path.length > 1) {
+    src = `https://www.youtube.com/embed${path}`;
+  }
+
+  // -- Spotify --
+  const spotify = host === "open.spotify.com"
+    ? path.match(/^\/(track|album|playlist|episode|show)\/([^/?]+)/)
+    : null;
+  if (spotify) {
+    type  = "iframe";
+    src   = `https://open.spotify.com/embed/${spotify[1]}/${spotify[2]}`;
+    wide  = false;
+    height = spotify[1] === "track" || spotify[1] === "episode" ? 152 : 352;
+  }
+
+  // -- SoundCloud (pink waveform to match the theme) --
+  if (host === "soundcloud.com") {
+    type  = "iframe";
+    src   = `https://w.soundcloud.com/player/?url=${encodeURIComponent(url)}&color=%23ffb7d5&theme_color=%231a1a1e&visual=false`;
+    wide  = false;
+    height = 166;
+  }
+
+  // -- direct media files --
+  if (/\.(mp4|webm|mov)$/i.test(path))    { type = "video"; src = url; wide = false; }
+  if (/\.(mp3|ogg|wav|m4a|flac)$/i.test(path)) { type = "audio"; src = url; wide = false; }
+  if (/\.(png|jpe?g|gif|webp|avif)$/i.test(path)) { type = "image"; src = url; wide = false; }
+
+  return embedElement(type, src, wide, heightOverride || height);
+}
+
+function embedElement(type, src, wide, height) {
+  const wrapper = document.createElement("div");
+  wrapper.className = "embed-item";
+
+  if (type === "iframe") {
+    const frame = document.createElement("iframe");
+    frame.className = "embed-iframe" + (wide ? " wide" : "");
+    frame.src = src;
+    frame.loading = "lazy";
+    frame.allow = "autoplay; clipboard-write; encrypted-media; picture-in-picture";
+    frame.allowFullscreen = true;
+    if (height) frame.style.height = `${height}px`;
+    wrapper.appendChild(frame);
+  }
+
+  if (type === "video") {
+    const video = document.createElement("video");
+    video.className = "embed-video";
+    video.src = src;
+    video.controls = true;
+    video.preload = "metadata";
+    wrapper.appendChild(video);
+  }
+
+  if (type === "audio") {
+    const audio = document.createElement("audio");
+    audio.className = "embed-audio";
+    audio.src = src;
+    audio.controls = true;
+    audio.preload = "metadata";
+    wrapper.appendChild(audio);
+  }
+
+  if (type === "image") {
+    const img = document.createElement("img");
+    img.className = "embed-image";
+    img.src = src;
+    img.loading = "lazy";
+    img.alt = "";
+    wrapper.appendChild(img);
+  }
+
+  return wrapper;
 }
 // ============================================================
 // CURSOR SPARKLE TRAIL

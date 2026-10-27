@@ -6,6 +6,23 @@
     <title>Profile</title>
     <link rel="icon" href="assets/favicon.png" />
     <link rel="stylesheet" href="css/style.css" />
+
+    <!-- ============================================================
+         SHARE EMBED — the card shown when this link is sent to
+         Discord / X / Facebook. Edit these values DIRECTLY:
+         crawlers don't run JavaScript, so config.js can't drive
+         them. og:image needs a FULL url (https://...) to work.
+         ============================================================ -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="nyan.exe ♡" />
+    <meta property="og:title" content="nyan.exe ♡" />
+    <meta property="og:description" content="૮₍ ˶ᵔ ᵕ ᵔ˶ ₎ა ♡" />
+    <meta property="og:image" content="https://your-domain.com/assets/icons/avatar.gif" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="nyan.exe ♡" />
+    <meta name="twitter:description" content="૮₍ ˶ᵔ ᵕ ᵔ˶ ₎ა ♡" />
+    <meta name="twitter:image" content="https://your-domain.com/assets/icons/avatar.gif" />
+    <meta name="theme-color" content="#ffb7d5" />
   </head>
   <body>
 
@@ -106,6 +123,9 @@
 
         <!-- Section 3: social links (generated from config.js) -->
         <div id="social-links"></div>
+
+        <!-- Section 4: media embeds (generated from config.js) -->
+        <div id="embeds"></div>
 
       </div>
 

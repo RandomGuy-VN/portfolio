@@ -27,6 +27,8 @@ Everything you want to change lives in **one single file**: `js/config.js`.
 - 🎵 **Synced lyrics widget** — follows the page's playlist (or your Spotify via Lanyard), lyrics from [LRCLIB](https://lrclib.net)
 - 🏅 **Badges / roles** with hover tooltips
 - 🔗 **Social links** with glow effect
+- 🧩 **Media embeds** — YouTube / Spotify / SoundCloud / direct media cards at the bottom
+- 💌 **Share embed** — pretty card when the link is sent to Discord / X
 - 🖱️ **Custom cursor**
 - 🔤 **Custom font** support (just drop your `.otf` file)
 - ⚙️ **100% configurable** from a single file
@@ -200,6 +202,38 @@ socialLinks: [
 ```
 - Add, remove or reorder links freely
 - Use any `.png` as an icon
+
+### 🧩 Embeds
+Paste links at the bottom of the profile — they turn into embedded players automatically:
+
+| Link | Renders as |
+|---|---|
+| YouTube `watch?v=` / `youtu.be` / `/shorts/` | 16:9 video player (playlist links work too) |
+| Spotify `track` / `album` / `playlist` / `episode` | official Spotify embed (152px track, 352px lists) |
+| SoundCloud | player with a pink waveform to match the theme |
+| direct `.mp4` `.webm` / `.mp3` `.ogg`… | native video / audio player |
+| direct `.png` `.jpg` `.gif` `.webp` | image card |
+| any other URL | raw iframe |
+
+```js
+embeds: [
+  { url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" },
+  { url: "https://open.spotify.com/track/6WrI0zfc7fLJGsfaAUDDaZ" },
+]
+```
+- `height` (optional) overrides an iframe's height in px
+
+### 💌 Share Embed (Discord / X)
+The card shown when your link is sent in chat lives in `index.html`'s `<head>` — the one section **outside `config.js`**, because crawlers (Discord, X, Facebook) don't run JavaScript:
+
+```html
+<meta property="og:title" content="nyan.exe ♡" />
+<meta property="og:description" content="૮₍ ˶ᵔ ᵕ ᵔ˶ ₎ა ♡" />
+<meta property="og:image" content="https://your-domain.com/assets/icons/avatar.gif" />
+<meta name="theme-color" content="#ffb7d5" />
+```
+- `og:image` needs a **full URL** (`https://…`) — relative paths are ignored by Discord
+- `theme-color` tints the embed's side stripe — set it to your `accentColor` to match the theme
 
 ### 🎨 Card & Colors
 | Field | What it does |

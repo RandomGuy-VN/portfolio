@@ -108,16 +108,26 @@ const CONFIG = {
   // Add, remove or reorder. "icon" = path inside assets/icons/
   // ----------------------------------------------------------
   socialLinks: [
-    { name: "Instagram", url: "https://instagram.com/user",         icon: "assets/icons/instagram.png" },
-    { name: "Spotify",   url: "https://open.spotify.com/user", icon: "assets/icons/spotify.png"   },
-    { name: "TikTok",    url: "https://www.tiktok.com/user",           icon: "assets/icons/tiktok.png"    },
-    { name: "OnlyFans",  url: "https://onlyfans.com/user",          icon: "assets/icons/onlyfans.png"  },
-    { name: "Github",  url: "https://github.com/user",          icon: "assets/icons/github.png"  },
+    { name: "Github",  url: "https://github.com/RandomGuy-",          icon: "assets/icons/github.png"  },
 ,
   ],
   iconSize:         "36px",
   iconBorderRadius: "8px",
   iconGlowColor:    "#ffb7d5",
+
+  // ----------------------------------------------------------
+  // EMBEDS — media cards at the bottom of the profile
+  // Supported: YouTube (video / shorts / playlist), Spotify
+  // (track / album / playlist / episode), SoundCloud, direct
+  // mp4 / mp3 / gif / image files, or any URL (raw iframe).
+  // "height" overrides the iframe height in px (optional).
+  // ----------------------------------------------------------
+  embeds: [
+    // { url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" },
+    // { url: "https://open.spotify.com/track/6WrI0zfc7fLJGsfaAUDDaZ" },
+    // { url: "https://soundcloud.com/user/song" },
+    // { url: "assets/audio/SpotiDownloader.com - Đốt - Ngọt.mp3" },
+  ],
 
   // ----------------------------------------------------------
   // CARD
