@@ -100,6 +100,15 @@ const CONFIG = {
         cover:     "",
         syncFactor: 1,
       },
+      {
+        file:      "assets/audio/kyu-kurarin.mp3",
+        trackName: "kyu-kurarin — Iyowa",
+        title:     "kyu-kurarin",
+        artist:    "Iyowa",
+        album:     "",
+        cover:     "",
+        syncFactor: 1,
+      },
     ],
   },
 
