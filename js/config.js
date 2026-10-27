@@ -108,7 +108,7 @@ const CONFIG = {
   // Add, remove or reorder. "icon" = path inside assets/icons/
   // ----------------------------------------------------------
   socialLinks: [
-    { name: "Github",  url: "https://github.com/RandomGuy-",          icon: "assets/icons/github.png"  },
+    { name: "Github",  url: "https://github.com/RandomGuy-VN",          icon: "assets/icons/github.png"  },
 ,
   ],
   iconSize:         "36px",
